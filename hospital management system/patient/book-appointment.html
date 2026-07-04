@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Appointment - Mulla Hospital Premium</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- Flatpickr for Date Selection -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css" id="flatpickr-theme">
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link rel="stylesheet" href="../assets/css/style.css">
+    
+    <style>
+        .slot-btn {
+            border: 1px solid var(--glass-border);
+            background: rgba(255,255,255,0.1);
+            color: var(--text-main);
+            transition: all 0.2s;
+        }
+        [data-bs-theme="dark"] .slot-btn {
+            background: rgba(0,0,0,0.2);
+            color: var(--text-main-dark);
+        }
+        .slot-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+        .slot-btn.selected {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4);
+        }
+        .doctor-card {
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .doctor-card:hover {
+            transform: translateY(-5px);
+        }
+        .doctor-card.selected {
+            border-color: var(--accent);
+            box-shadow: 0 10px 25px rgba(20, 184, 166, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-blobs">
+        <div class="blob blob-1" style="background: var(--accent);"></div>
+        <div class="blob blob-2" style="background: var(--primary);"></div>
+    </div>
+
+    <div class="dashboard-layout">
+        
+        <!-- Floating Glass Sidebar -->
+        <aside class="floating-sidebar glass-card p-4">
+            <div class="mb-5 d-flex align-items-center justify-content-center">
+                <div class="bg-white rounded-circle p-2 shadow-sm me-3" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-notes-medical fs-4" style="color: var(--primary);"></i>
+                </div>
+                <h3 class="fw-bold mb-0 text-gradient">Mulla Hospital</h3>
+            </div>
+            
+            <nav class="nav flex-column gap-2 mb-auto">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fa-solid fa-border-all"></i> Dashboard
+                </a>
+                <a href="book-appointment.html" class="nav-link active">
+                    <i class="fa-solid fa-calendar-plus"></i> Book Appointment
+                </a>
+                <a href="history.html" class="nav-link">
+                    <i class="fa-solid fa-clock-rotate-left"></i> History
+                </a>
+                <a href="prescriptions.html" class="nav-link">
+                    <i class="fa-solid fa-file-prescription"></i> Prescriptions
+                </a>
+                <a href="payments.html" class="nav-link">
+                    <i class="fa-solid fa-receipt"></i> Payments
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-4 border-top border-secondary border-opacity-25">
+                <div class="d-flex align-items-center glass-card p-2 rounded-4" style="background: rgba(255,255,255,0.2);">
+                    <img src="https://ui-avatars.com/api/?name=Patient&background=14b8a6&color=fff" alt="User" class="rounded-circle me-3" width="40">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold user-name-display" style="font-size: 0.9rem;">John Doe</h6>
+                        <small style="opacity: 0.7; font-size: 0.75rem;">Patient</small>
+                    </div>
+                    <button class="btn btn-sm btn-link text-danger p-0 ms-2" onclick="logout()">
+                        <i class="fa-solid fa-power-off fs-5"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="dashboard-main">
+            
+            <header class="d-flex justify-content-between align-items-center mb-5 slide-up">
+                <div>
+                    <h2 class="fw-bold mb-1">Book an Appointment</h2>
+                    <p class="mb-0" style="opacity: 0.7;">Select a doctor, date, and time to schedule.</p>
+                </div>
+                <div class="d-flex gap-3 align-items-center">
+                    <button id="theme-toggle" class="btn btn-glass rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="row g-4 slide-up" style="animation-delay: 0.2s;">
+                <!-- Step 1 & 2: Select Doctor and Date -->
+                <div class="col-lg-8">
+                    <div class="glass-card p-4 h-100">
+                        <h5 class="fw-bold mb-4">1. Select Doctor</h5>
+                        <div class="row g-3 mb-5">
+                            <div class="col-md-6">
+                                <div class="glass-card doctor-card p-3 d-flex align-items-center selected" onclick="selectDoctor(this, 'Dr. Sarah Smith', 150)">
+                                    <img src="https://ui-avatars.com/api/?name=Sarah+Smith&background=ec4899&color=fff" class="rounded-circle me-3" width="50">
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Dr. Sarah Smith</h6>
+                                        <small class="text-primary fw-medium">Cardiology</small><br>
+                                        <small style="opacity: 0.7;">Fees: $150</small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="glass-card doctor-card p-3 d-flex align-items-center" onclick="selectDoctor(this, 'Dr. Robert Chen', 200)">
+                                    <img src="https://ui-avatars.com/api/?name=Robert+Chen&background=14b8a6&color=fff" class="rounded-circle me-3" width="50">
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Dr. Robert Chen</h6>
+                                        <small class="text-accent fw-medium" style="color: var(--accent);">Neurology</small><br>
+                                        <small style="opacity: 0.7;">Fees: $200</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <h5 class="fw-bold mb-4">2. Select Date</h5>
+                        <input type="text" id="datePicker" class="form-control form-control-lg bg-transparent text-main mb-5 border-secondary border-opacity-25" placeholder="Choose a date...">
+
+                        <h5 class="fw-bold mb-4">3. Available Time Slots</h5>
+                        <div class="d-flex flex-wrap gap-2" id="timeSlots">
+                            <!-- Slots generated via JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Step 4: Summary & Payment -->
+                <div class="col-lg-4">
+                    <div class="glass-card p-4 position-sticky" style="top: 20px;">
+                        <h5 class="fw-bold mb-4">Appointment Summary</h5>
+                        
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                <i class="fa-solid fa-stethoscope"></i>
+                            </div>
+                            <div>
+                                <small class="d-block text-uppercase fw-bold" style="opacity: 0.5; font-size: 0.7rem;">Doctor</small>
+                                <span class="fw-semibold" id="summaryDoctorName">Dr. Sarah Smith</span>
+                            </div>
+                        </div>
+
+                        <div class="d-flex align-items-center mb-4">
+                            <div class="bg-accent bg-opacity-10 rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px; color: var(--accent);">
+                                <i class="fa-solid fa-calendar"></i>
+                            </div>
+                            <div>
+                                <small class="d-block text-uppercase fw-bold" style="opacity: 0.5; font-size: 0.7rem;">Date & Time</small>
+                                <span class="fw-semibold" id="summaryDateTime">Select Date & Time</span>
+                            </div>
+                        </div>
+
+                        <hr class="border-secondary border-opacity-25 my-4">
+
+                        <div class="d-flex justify-content-between mb-2">
+                            <span style="opacity: 0.7;">Consultation Fee</span>
+                            <span class="fw-semibold" id="summaryFee">$150.00</span>
+                        </div>
+                        <div class="d-flex justify-content-between mb-4">
+                            <span style="opacity: 0.7;">Platform Fee</span>
+                            <span class="fw-semibold">$5.00</span>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between align-items-center mb-4 p-3 rounded-3" style="background: rgba(99,102,241,0.1);">
+                            <span class="fw-bold text-primary">Total Amount</span>
+                            <span class="fw-bold fs-5 text-primary" id="summaryTotal">$155.00</span>
+                        </div>
+
+                        <button class="btn btn-glass text-white w-100 py-3 rounded-pill fw-bold border-0 shadow-sm" style="background: linear-gradient(135deg, var(--accent), #2dd4bf);" onclick="confirmBooking()">
+                            Pay & Confirm Booking
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="../assets/js/app.js"></script>
+    <script>
+        // Doctor Selection
+        function selectDoctor(element, name, fee) {
+            document.querySelectorAll('.doctor-card').forEach(card => card.classList.remove('selected'));
+            element.classList.add('selected');
+            
+            document.getElementById('summaryDoctorName').textContent = name;
+            document.getElementById('summaryFee').textContent = '$' + fee.toFixed(2);
+            document.getElementById('summaryTotal').textContent = '$' + (fee + 5).toFixed(2);
+        }
+
+        // Date Picker Initialization
+        const datePicker = flatpickr("#datePicker", {
+            minDate: "today",
+            dateFormat: "Y-m-d",
+            onChange: function(selectedDates, dateStr, instance) {
+                generateTimeSlots();
+                updateSummary();
+            }
+        });
+
+        // Theme sync for flatpickr
+        function syncFlatpickrTheme() {
+            const isDark = document.documentElement.getAttribute('data-bs-theme') === 'dark';
+            const themeLink = document.getElementById('flatpickr-theme');
+            if (isDark) {
+                themeLink.href = "https://npmcdn.com/flatpickr/dist/themes/dark.css";
+            } else {
+                themeLink.href = "https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"; // light default
+            }
+        }
+        
+        // Listen for our custom theme toggle click to update flatpickr
+        document.getElementById('theme-toggle').addEventListener('click', () => {
+            setTimeout(syncFlatpickrTheme, 50);
+        });
+        syncFlatpickrTheme();
+
+        // Time Slots Generation
+        let selectedTime = null;
+        function generateTimeSlots() {
+            const slotsContainer = document.getElementById('timeSlots');
+            slotsContainer.innerHTML = '';
+            selectedTime = null;
+            
+            const times = ['09:00 AM', '09:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '02:00 PM', '02:30 PM', '03:00 PM'];
+            
+            times.forEach(time => {
+                const btn = document.createElement('button');
+                btn.className = 'btn slot-btn rounded-pill px-4 py-2 fw-medium';
+                btn.textContent = time;
+                btn.onclick = () => {
+                    document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+                    btn.classList.add('selected');
+                    selectedTime = time;
+                    updateSummary();
+                };
+                slotsContainer.appendChild(btn);
+            });
+        }
+
+        function updateSummary() {
+            const date = document.getElementById('datePicker').value;
+            const summary = document.getElementById('summaryDateTime');
+            
+            if (date && selectedTime) {
+                summary.textContent = `${date} at ${selectedTime}`;
+            } else if (date) {
+                summary.textContent = `${date} - Select Time`;
+            } else {
+                summary.textContent = 'Select Date & Time';
+            }
+        }
+
+        function confirmBooking() {
+            const date = document.getElementById('datePicker').value;
+            if (!date || !selectedTime) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Incomplete Selection',
+                    text: 'Please select both a date and a time slot.',
+                    background: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#1e293b' : '#fff',
+                    color: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000',
+                });
+                return;
+            }
+
+            // Simulate Payment Processing
+            Swal.fire({
+                title: 'Processing Payment',
+                html: 'Please wait while we securely process your transaction...',
+                timer: 2000,
+                timerProgressBar: true,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                },
+                background: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#1e293b' : '#fff',
+                color: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000',
+            }).then((result) => {
+                if (result.dismiss === Swal.DismissReason.timer) {
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Appointment Confirmed!',
+                        text: 'Your payment was successful and appointment is booked.',
+                        confirmButtonText: 'Download Receipt',
+                        showCancelButton: true,
+                        cancelButtonText: 'Go to Dashboard',
+                        background: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#1e293b' : '#fff',
+                        color: document.documentElement.getAttribute('data-bs-theme') === 'dark' ? '#fff' : '#000',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Mock receipt download
+                            window.print(); 
+                        } else {
+                            window.location.href = 'dashboard.html';
+                        }
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+</html>

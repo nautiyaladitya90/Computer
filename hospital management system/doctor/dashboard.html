@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - Mulla Hospital Premium</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!-- Animated Background Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2" style="background: var(--accent);"></div>
+    </div>
+
+    <div class="dashboard-layout">
+        
+        <!-- Floating Glass Sidebar -->
+        <aside class="floating-sidebar glass-card p-4 slide-up" style="animation-delay: 0.1s;">
+            <div class="mb-5 d-flex align-items-center justify-content-center">
+                <div class="bg-white rounded-circle p-2 shadow-sm me-3" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-notes-medical fs-4" style="color: var(--primary);"></i>
+                </div>
+                <h3 class="fw-bold mb-0 text-gradient">Mulla Hospital</h3>
+            </div>
+            
+            <nav class="nav flex-column gap-2 mb-auto">
+                <a href="dashboard.html" class="nav-link active">
+                    <i class="fa-solid fa-border-all"></i> Dashboard
+                </a>
+                <a href="appointments.html" class="nav-link">
+                    <i class="fa-solid fa-calendar-check"></i> My Appointments
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-clock"></i> Availability
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-users"></i> My Patients
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-gear"></i> Settings
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-4 border-top border-secondary border-opacity-25">
+                <div class="d-flex align-items-center glass-card p-2 rounded-4" style="background: rgba(255,255,255,0.2);">
+                    <img src="https://ui-avatars.com/api/?name=Doctor&background=ec4899&color=fff" alt="User" class="rounded-circle me-3" width="40">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold user-name-display" style="font-size: 0.9rem;">Dr. Raju Mistri</h6>
+                        <small style="opacity: 0.7; font-size: 0.75rem;">Cardiology</small>
+                    </div>
+                    <button class="btn btn-sm btn-link text-danger p-0 ms-2" onclick="logout()">
+                        <i class="fa-solid fa-power-off fs-5"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="dashboard-main">
+            
+            <header class="d-flex justify-content-between align-items-center mb-5 slide-up" style="animation-delay: 0.2s;">
+                <div>
+                    <h2 class="fw-bold mb-1">Welcome, <span class="text-gradient user-name-display">Dr. Smith</span></h2>
+                    <p class="mb-0" style="opacity: 0.7;">Here is your schedule for today.</p>
+                </div>
+                
+                <div class="d-flex gap-3 align-items-center">
+                    <button id="theme-toggle" class="btn btn-glass rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="row g-4 mb-5 slide-up" style="animation-delay: 0.3s;">
+                <div class="col-md-4">
+                    <div class="glass-card p-4 h-100 position-relative overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(99,102,241,0.05)); border-color: rgba(99,102,241,0.3);" onclick="window.location.href='appointments.html?tab=today'">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div>
+                                <p class="mb-1 fw-medium" style="opacity: 0.8;">Today's Appointments</p>
+                                <h2 class="fw-bold mb-0 text-primary">8</h2>
+                            </div>
+                            <div class="stat-icon bg-primary text-white">
+                                <i class="fa-solid fa-calendar-day"></i>
+                            </div>
+                        </div>
+                        <div class="progress mt-3" style="height: 6px; background: rgba(99,102,241,0.2);">
+                            <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: 35%"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="glass-card p-4 h-100 position-relative overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, rgba(20,184,166,0.2), rgba(20,184,166,0.05)); border-color: rgba(20,184,166,0.3);" onclick="window.location.href='appointments.html?tab=completed'">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div>
+                                <p class="mb-1 fw-medium" style="opacity: 0.8;">Completed</p>
+                                <h2 class="fw-bold mb-0 text-success">3</h2>
+                            </div>
+                            <div class="stat-icon bg-success text-white">
+                                <i class="fa-solid fa-check"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="glass-card p-4 h-100 position-relative overflow-hidden cursor-pointer" style="background: linear-gradient(135deg, rgba(245,158,11,0.2), rgba(245,158,11,0.05)); border-color: rgba(245,158,11,0.3);" onclick="window.location.href='appointments.html?tab=pending'">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div>
+                                <p class="mb-1 fw-medium" style="opacity: 0.8;">Pending Approval</p>
+                                <h2 class="fw-bold mb-0 text-warning">2</h2>
+                            </div>
+                            <div class="stat-icon bg-warning text-white">
+                                <i class="fa-solid fa-hourglass-half"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Appointments Queue -->
+            <div class="glass-card p-4 slide-up" style="animation-delay: 0.4s;">
+                <h5 class="fw-bold mb-4">Upcoming Patients</h5>
+                
+                <div class="list-group list-group-flush gap-3">
+                    <div class="glass-card p-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.4);">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 fw-bold" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                JD
+                            </div>
+                            <div>
+                                <h6 class="mb-1 fw-bold">John Doe</h6>
+                                <small style="opacity: 0.7;">Checkup • <span class="fw-bold text-primary">10:00 AM</span></small>
+                            </div>
+                        </div>
+                        <button class="btn btn-glass btn-sm rounded-pill px-4 py-2">Consult <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                    </div>
+
+                    <div class="glass-card p-3 d-flex justify-content-between align-items-center" style="background: rgba(255,255,255,0.4);">
+                        <div class="d-flex align-items-center">
+                            <div class="bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-3 fw-bold" style="width: 50px; height: 50px; font-size: 1.2rem;">
+                                AJ
+                            </div>
+                            <div>
+                                <h6 class="mb-1 fw-bold">Alice Johnson</h6>
+                                <small style="opacity: 0.7;">Follow-up • <span class="fw-bold text-primary">11:30 AM</span></small>
+                            </div>
+                        </div>
+                        <button class="btn btn-glass btn-sm rounded-pill px-4 py-2">Consult <i class="fa-solid fa-arrow-right ms-2"></i></button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+</body>
+</html>

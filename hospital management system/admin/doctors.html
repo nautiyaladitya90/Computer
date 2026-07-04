@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Management - Mulla Hospital Premium</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
+    
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-3" style="background: var(--accent);"></div>
+    </div>
+
+    <div class="dashboard-layout">
+        
+        <!-- Floating Glass Sidebar -->
+        <aside class="floating-sidebar glass-card p-4">
+            <div class="mb-5 d-flex align-items-center justify-content-center">
+                <div class="bg-white rounded-circle p-2 shadow-sm me-3" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-notes-medical fs-4" style="color: var(--primary);"></i>
+                </div>
+                <h3 class="fw-bold mb-0 text-gradient">Mulla Hospital</h3>
+            </div>
+            
+            <nav class="nav flex-column gap-2 mb-auto">
+                <a href="dashboard.html" class="nav-link">
+                    <i class="fa-solid fa-border-all"></i> Dashboard
+                </a>
+                <a href="doctors.html" class="nav-link active">
+                    <i class="fa-solid fa-user-doctor"></i> Medical Staff
+                </a>
+                <a href="patients.html" class="nav-link">
+                    <i class="fa-solid fa-users"></i> Patients
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-calendar-check"></i> Appointments
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-chart-pie"></i> Analytics
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-sliders"></i> Settings
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-4 border-top border-secondary border-opacity-25">
+                <div class="d-flex align-items-center glass-card p-2 rounded-4" style="background: rgba(255,255,255,0.2);">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=6366f1&color=fff" alt="User" class="rounded-circle me-3" width="40">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold user-name-display" style="font-size: 0.9rem;">Admin User</h6>
+                        <small style="opacity: 0.7; font-size: 0.75rem;">Super Admin</small>
+                    </div>
+                    <button class="btn btn-sm btn-link text-danger p-0 ms-2" onclick="logout()">
+                        <i class="fa-solid fa-power-off fs-5"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <header class="d-flex justify-content-between align-items-center mb-5 slide-up">
+                <div>
+                    <h2 class="fw-bold mb-1">Doctor Management</h2>
+                    <p class="mb-0" style="opacity: 0.7;">Add, edit, or remove medical staff.</p>
+                </div>
+                <div class="d-flex gap-3 align-items-center">
+                    <button class="btn btn-glass bg-primary text-white border-0 shadow-sm rounded-pill px-4 py-2 fw-bold" style="background: linear-gradient(135deg, var(--primary), #818cf8);" data-bs-toggle="modal" data-bs-target="#addDoctorModal">
+                        <i class="fa-solid fa-plus me-2"></i> Add Doctor
+                    </button>
+                    <button id="theme-toggle" class="btn btn-glass rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="glass-card p-4 slide-up" style="animation-delay: 0.2s;">
+                <table id="doctorsTable" class="table table-hover dt-responsive nowrap w-100 align-middle">
+                    <thead>
+                        <tr style="opacity: 0.8;">
+                            <th>Doctor Profile</th>
+                            <th>Specialty</th>
+                            <th>Contact</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://ui-avatars.com/api/?name=Sarah+Smith&background=ec4899&color=fff" class="rounded-circle me-3" width="40">
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Dr. Sarah Smith</h6>
+                                        <small class="text-muted">ID: DOC-101</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="fw-medium text-primary">Cardiology</td>
+                            <td><small>sarah@Mulla Hospital.com<br>+91 9876543210</small></td>
+                            <td><span class="badge bg-success bg-opacity-25 text-success rounded-pill px-3 py-1">Active</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-glass text-primary me-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-glass text-danger"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img src="https://ui-avatars.com/api/?name=Robert+Chen&background=14b8a6&color=fff" class="rounded-circle me-3" width="40">
+                                    <div>
+                                        <h6 class="mb-0 fw-bold">Dr. Robert Chen</h6>
+                                        <small class="text-muted">ID: DOC-102</small>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="fw-medium text-primary">Neurology</td>
+                            <td><small>robert@Mulla Hospital.com<br>+91 8765432109</small></td>
+                            <td><span class="badge bg-success bg-opacity-25 text-success rounded-pill px-3 py-1">Active</span></td>
+                            <td>
+                                <button class="btn btn-sm btn-glass text-primary me-2"><i class="fa-solid fa-pen-to-square"></i></button>
+                                <button class="btn btn-sm btn-glass text-danger"><i class="fa-solid fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Doctor Modal -->
+    <div class="modal fade" id="addDoctorModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content glass-card border-0">
+                <div class="modal-header border-bottom border-secondary border-opacity-10">
+                    <h5 class="modal-title fw-bold">Add New Doctor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body p-4">
+                    <form id="addDoctorForm">
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium">Full Name</label>
+                            <input type="text" class="form-control bg-transparent text-main" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium">Specialty</label>
+                            <select class="form-select bg-transparent text-main">
+                                <option>Cardiology</option>
+                                <option>Neurology</option>
+                                <option>Pediatrics</option>
+                                <option>Orthopedics</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-medium">Email Address</label>
+                            <input type="email" class="form-control bg-transparent text-main" required>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label small fw-medium">Phone Number</label>
+                            <input type="tel" class="form-control bg-transparent text-main" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 rounded-pill py-2 fw-bold shadow-sm">Save Doctor</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap5.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap5.min.js"></script>
+    
+    <script src="../assets/js/app.js"></script>
+    <script>
+        $(document).ready(function() {
+            initDataTable('doctorsTable');
+        });
+    </script>
+</body>
+</html>

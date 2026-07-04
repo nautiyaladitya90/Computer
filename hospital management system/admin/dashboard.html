@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Mulla Hospital Premium</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body>
+    <!-- Animated Background Blobs -->
+    <div class="bg-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="dashboard-layout">
+        
+        <!-- Floating Glass Sidebar -->
+        <aside class="floating-sidebar glass-card p-4 slide-up" style="animation-delay: 0.1s;">
+            <div class="mb-5 d-flex align-items-center justify-content-center">
+                <div class="bg-white rounded-circle p-2 shadow-sm me-3" style="width: 45px; height: 45px; display: flex; align-items: center; justify-content: center;">
+                    <i class="fa-solid fa-notes-medical fs-4" style="color: var(--primary);"></i>
+                </div>
+                <h3 class="fw-bold mb-0 text-gradient">Mulla Hospitals</h3>
+            </div>
+            
+            <nav class="nav flex-column gap-2 mb-auto">
+                <a href="dashboard.html" class="nav-link active">
+                    <i class="fa-solid fa-border-all"></i> Dashboard
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-user-doctor"></i> Medical Staff
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-users"></i> Patients
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-calendar-check"></i> Appointments
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-chart-pie"></i> Analytics
+                </a>
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-sliders"></i> Settings
+                </a>
+            </nav>
+
+            <div class="mt-auto pt-4 border-top border-secondary border-opacity-25">
+                <div class="d-flex align-items-center glass-card p-2 rounded-4" style="background: rgba(255,255,255,0.2);">
+                    <img src="https://ui-avatars.com/api/?name=Admin&background=6366f1&color=fff" alt="User" class="rounded-circle me-3" width="40">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-bold user-name-display" style="font-size: 0.9rem;">Admin User</h6>
+                        <small style="opacity: 0.7; font-size: 0.75rem;">Super Admin</small>
+                    </div>
+                    <button class="btn btn-sm btn-link text-danger p-0 ms-2" onclick="logout()">
+                        <i class="fa-solid fa-power-off fs-5"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="dashboard-main">
+            
+            <!-- Top Navigation -->
+            <header class="d-flex justify-content-between align-items-center mb-5 slide-up" style="animation-delay: 0.2s;">
+                <div>
+                    <h2 class="fw-bold mb-1">Dashboard Overview</h2>
+                    <p class="mb-0" style="opacity: 0.7;">Welcome back, here's what's happening today.</p>
+                </div>
+                
+                <div class="d-flex gap-3 align-items-center">
+                    <div class="glass-card px-4 py-2 rounded-pill d-flex align-items-center">
+                        <i class="fa-solid fa-magnifying-glass me-2" style="opacity: 0.5;"></i>
+                        <input type="text" class="bg-transparent border-0 text-main" placeholder="Search anything..." style="outline: none; width: 200px;">
+                    </div>
+                    
+                    <button id="theme-toggle" class="btn btn-glass rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-moon"></i>
+                    </button>
+                    
+                    <button class="btn btn-glass rounded-circle p-0 d-flex align-items-center justify-content-center shadow-sm position-relative" style="width: 45px; height: 45px;">
+                        <i class="fa-solid fa-bell"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle"></span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Stat Cards -->
+            <div class="row g-4 mb-5 slide-up" style="animation-delay: 0.3s;">
+                <div class="col-md-3">
+                    <div class="glass-card p-4 h-100 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div>
+                                <p class="mb-1 fw-medium" style="opacity: 0.7;">Total Patients</p>
+                                <h3 class="fw-bold mb-0">2,451</h3>
+                            </div>
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #6366f1, #818cf8); color: white;">
+                                <i class="fa-solid fa-users"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-2 py-1 me-2"><i class="fa-solid fa-arrow-trend-up me-1"></i> +12%</span>
+                            <small style="opacity: 0.6;">vs last month</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="glass-card p-4 h-100 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div>
+                                <p class="mb-1 fw-medium" style="opacity: 0.7;">Appointments</p>
+                                <h3 class="fw-bold mb-0">184</h3>
+                            </div>
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #ec4899, #f472b6); color: white;">
+                                <i class="fa-solid fa-calendar-check"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-2 py-1 me-2"><i class="fa-solid fa-arrow-trend-up me-1"></i> +5%</span>
+                            <small style="opacity: 0.6;">vs last week</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="glass-card p-4 h-100 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div>
+                                <p class="mb-1 fw-medium" style="opacity: 0.7;">Avg. Wait Time</p>
+                                <h3 class="fw-bold mb-0">14m</h3>
+                            </div>
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #14b8a6, #2dd4bf); color: white;">
+                                <i class="fa-solid fa-stopwatch"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-danger bg-opacity-25 text-danger rounded-pill px-2 py-1 me-2"><i class="fa-solid fa-arrow-trend-down me-1"></i> -2m</span>
+                            <small style="opacity: 0.6;">improvement</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="glass-card p-4 h-100 position-relative overflow-hidden">
+                        <div class="d-flex justify-content-between align-items-start mb-4">
+                            <div>
+                                <p class="mb-1 fw-medium" style="opacity: 0.7;">Revenue</p>
+                                <h3 class="fw-bold mb-0">$84.5k</h3>
+                            </div>
+                            <div class="stat-icon" style="background: linear-gradient(135deg, #f59e0b, #fbbf24); color: white;">
+                                <i class="fa-solid fa-chart-pie"></i>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <span class="badge bg-success bg-opacity-25 text-success rounded-pill px-2 py-1 me-2"><i class="fa-solid fa-arrow-trend-up me-1"></i> +18%</span>
+                            <small style="opacity: 0.6;">vs last month</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts & Content -->
+            <div class="row g-4 slide-up" style="animation-delay: 0.4s;">
+                <div class="col-lg-8">
+                    <div class="glass-card p-4 h-100">
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <h5 class="fw-bold mb-0">Patient Demographics (2026)</h5>
+                            <button class="btn btn-glass btn-sm px-3 rounded-pill">Download Report</button>
+                        </div>
+                        <div style="height: 300px;">
+                            <canvas id="patientChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4">
+                    <div class="glass-card p-4 h-100">
+                        <h5 class="fw-bold mb-4">Recent Activity</h5>
+                        
+                        <div class="d-flex mb-4">
+                            <div class="me-3 position-relative">
+                                <div class="rounded-circle bg-primary bg-opacity-10 d-flex align-items-center justify-content-center text-primary" style="width: 40px; height: 40px;">
+                                    <i class="fa-solid fa-plus"></i>
+                                </div>
+                                <div class="position-absolute bg-primary bg-opacity-25" style="width: 2px; height: 100%; top: 40px; left: 19px;"></div>
+                            </div>
+                            <div>
+                                <p class="mb-1 fw-semibold">New Patient Registered</p>
+                                <p class="mb-0 small" style="opacity: 0.7;">Sarah Jenkins joined Mulla Hospital.</p>
+                                <small class="text-primary mt-1 d-block">2 mins ago</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex mb-4">
+                            <div class="me-3 position-relative">
+                                <div class="rounded-circle bg-success bg-opacity-10 d-flex align-items-center justify-content-center text-success" style="width: 40px; height: 40px;">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                                <div class="position-absolute bg-success bg-opacity-25" style="width: 2px; height: 100%; top: 40px; left: 19px;"></div>
+                            </div>
+                            <div>
+                                <p class="mb-1 fw-semibold">Surgery Completed</p>
+                                <p class="mb-0 small" style="opacity: 0.7;">Dr. Satish Mulla finished Appendectomy.</p>
+                                <small class="text-success mt-1 d-block">1 hour ago</small>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <div class="rounded-circle bg-warning bg-opacity-10 d-flex align-items-center justify-content-center text-warning" style="width: 40px; height: 40px;">
+                                    <i class="fa-solid fa-triangle-exclamation"></i>
+                                </div>
+                            </div>
+                            <div>
+                                <p class="mb-1 fw-semibold">Inventory Alert</p>
+                                <p class="mb-0 small" style="opacity: 0.7;">Paracetamol stocks are running low.</p>
+                                <small class="text-warning mt-1 d-block">3 hours ago</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/app.js"></script>
+    <script src="../assets/js/admin.js"></script>
+</body>
+</html>
